@@ -1,0 +1,178 @@
+// Ye Wont Aung
+// yewontaung798@gmail.com
+
+
+#include "stdio.h"
+#include "string.h"
+
+int SIZE = 100;
+
+int user_function();
+int line1And2(user_name, birth_date, month, year);
+int user_input();
+int ptrFun();
+
+int main(){
+        char user_choice ;
+        printf("Make an biography essay with this game.\n");
+        printf("Enter 's' to start the program or 'e' to exit.\n");
+        scanf(" %c", &user_choice);
+        while (user_choice != 'e'){
+        if (user_choice == 's'){
+            user_input();
+        }else{
+            printf("Invalid Keyword. Pls try again.\n");
+
+        }
+        printf("Enter 's' to start the program or 'e' to exit.\n");
+        scanf(" %c", &user_choice);
+        }
+        printf("Good Bye!!!");
+
+return 0;
+}
+
+int user_function(){
+
+    int age = 0 ;
+    int date = 0 ;
+    int birth_year = 0;
+
+    char months_names[SIZE] ;
+    char name[SIZE] ;
+    char dad_name[SIZE] ;
+    char mom_name[SIZE] ;
+    char town[SIZE] ;
+
+
+    printf("Enter your name : ");
+    scanf(" %s", &name);
+
+    printf("Enter your birth date : ");
+    scanf(" %d", &date);
+
+    printf("Enter your birth month : ");
+    scanf(" %s", &months_names);
+
+    printf("Enter your birth year : ");
+    scanf(" %d", &birth_year);
+
+
+
+    printf("Enter your father name : ");
+    scanf(" %s", &dad_name);
+
+    printf("Enter your mother name : ");
+    scanf(" %s", &mom_name);
+
+    printf("Enter the town you live : ");
+    scanf(" %s", &town);
+
+    line1And2(name, date, months_names, birth_year);
+    age = 2022 - birth_year ;
+    printf("I am %d years old.\n", age);
+    printf("My parents are U %s and Daw %s.\n", dad_name, mom_name);
+    printf("I live in %s.\n\n", town);
+
+return 0;
+}
+
+int line1And2(user_name, birth_date, month, year){
+
+    printf("My name is %s.\n", user_name);
+    printf("I was born on %d %s, %d.\n", birth_date, month, year);
+
+return 0;
+}
+
+int user_input(){
+
+
+    char program_choice ;
+
+    printf("Enter 'b' for essay program or enter 'p' for pointer program\n");
+    scanf(" %c", &program_choice);
+    if (program_choice == 'b'){
+        user_function();
+        }else if (program_choice == 'p'){
+            ptrFun();
+            }
+        else {
+            printf("Invalid keyword. Pls try again.\n");
+        }
+
+return 0;
+}
+
+
+int ptrFun(){
+
+    int firstNum = 0;
+    int* ptr1;
+
+    int secondNum = 0;
+    int* ptr2;
+
+    char operation;
+    char operation_array[4] = {'+', '-', '*', '/'};
+    char* operation_ptr;
+
+    int res = 0;
+    int* ptr3;
+
+    printf("Let see some pointer works with simple calculator.\n");
+    printf("First number = ");
+    scanf(" %d", &firstNum);
+    ptr1 = &firstNum;
+    printf("Address of first number in %x \n", ptr1);
+
+    printf("Operator = ");
+    scanf(" %c", &operation);
+    for (int i=0; i<5; i++){
+        if (operation_array[i] == operation){
+            operation_ptr = &operation_array[i];
+            printf("Address of '%c' in operation array = %x\n", operation, operation_ptr);
+            break;
+        }
+    }
+
+    printf("Second number = ");
+    scanf(" %d", &secondNum);
+    ptr2 = &secondNum;
+    printf("Address of second number in %x \n", ptr2);
+
+    switch(operation){
+
+    case '+':
+        res = firstNum + secondNum;
+        ptr3 = &res;
+        printf("%d + %d = %d\n", firstNum, secondNum, *ptr3);
+        printf("Address of %d = %x\n", *ptr3, ptr3);
+        break;
+    case '-':
+        res = firstNum - secondNum;
+        ptr3 = &res;
+        printf("%d - %d = %d\n", firstNum, secondNum, *ptr3);
+        printf("Address of %d = %x\n", *ptr3, ptr3);
+        break;
+    case '*':
+        res = firstNum * secondNum;
+        ptr3 = &res;
+        printf("%d * %d = %d\n", firstNum, secondNum, *ptr3);
+        printf("Address of %d = %x\n", *ptr3, ptr3);
+        break;
+    case '/':
+        res = firstNum / secondNum;
+        ptr3 = &res;
+        printf("%d / %d = %d\n", firstNum, secondNum, *ptr3);
+        printf("Address of %d = %x\n", *ptr3, ptr3);
+        break;
+
+    default:
+        printf("Error occur.\n");
+        break;
+
+    }
+
+return 0;
+}
