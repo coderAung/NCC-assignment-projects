@@ -1,0 +1,116 @@
+//yewontaung798@gmail.com
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define SIZE 1000
+int insertData();
+int findData();
+
+int main()
+{
+	int userInput = 0;
+	
+	printf("Press 1 to insert data\nPress 2 to find data\nPress 3 to update data\n");
+	printf(" >>> ");
+	scanf("%d",&userInput);
+	fgetc(stdin);
+	
+	do{
+	switch(userInput)
+	{
+		case 1:
+		insertData();
+		break;
+		
+		case 2:
+		//indData();
+		break;
+		
+		case 3:
+		//updateData;
+		break;
+		
+		default:
+		printf("Error occur!\n");
+		break;
+	}
+	printf("Enter x to exit.\n");
+	printf("Press 1 to insert data\nPress 2 to find data\nPress 3 to update data\n");
+	printf(" >>> ");
+	scanf("%s",&userInput);
+	fgetc(stdin);
+	}while(userInput != 'x');	
+	
+return 0;	
+}
+
+int insertData()
+{
+	FILE * fptr1;
+	FILE * passFile;
+	
+	char data[SIZE];
+	char password[10];
+	
+	fptr1 = fopen("userInfo.txt", "a");
+	if(fptr1 == NULL)
+	{
+		printf("File opening error\n");
+		return 1;
+	}
+	printf("Enter your data\n");
+	printf("ID, name, amount, age, location\n>>> ");
+	fgets(data, SIZE, stdin);
+	
+	
+	
+	passFile = fopen("password.txt", "a");
+	if(passFile == NULL)
+	{
+		printf("Error!");
+		return 1;
+	}
+	
+	printf("Create password >>> ");
+	fgets(password, 10, stdin);
+	fputs(password, passFile);
+	fclose(passFile);
+	fputs(data, fptr1);
+	fclose(fptr1);
+	printf("Your data is added\n");
+}
+
+int findData()
+{
+	char password[SIZE], buffer[SIZE];
+	int n = 0, m = 0, i = 0, j = 0, line = 0;
+	
+	FILE * fptr2;
+	fptr2 = fopen("userInfo.txt", "r");
+	
+	printf("Enter password >> ");
+	gets(password);
+	
+	m = strlen(password);
+	
+	while(fgets(buffer, SIZE, fptr2) != NULL)
+	{
+		i = 0;
+		n = strlen(buffer);
+		while(i < n)
+		{
+			j = 0;
+			while(i < n && j < m && buffer[i] == password[j])
+			{
+				++i, ++j;
+			}
+			if((i == n || buffer[i] == ' ' || buffer[i] == '\n') && j == m)
+			{
+				printf("Data : %s", buffer);
+			}
+		}
+	}
+}
