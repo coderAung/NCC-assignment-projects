@@ -17,6 +17,7 @@ public:
 	int amount;
 	int age;
 	string location;
+	int pass_w;
 	
 	void addData()
 	{
@@ -32,6 +33,22 @@ public:
 		af << name << " : " << id << " : " << amount << " : " << age << " : " << location << endl;
 		
 		af.close();
+		
+		ofstream ap; // add password
+			
+		ap.open("pw.txt", ofstream::app);
+			
+		if(ap.fail())
+		{
+			cout << "Error occurs!" << endl;
+			exit(1);
+		}
+			
+		ap << "\n" << pass_w;
+			
+		cout << "Data added successfully." << endl;
+			
+		ap.close();
 	}
 	
 };
@@ -74,26 +91,10 @@ int main()
 			cout << "Location(town) :: ";
 			getline(cin >> ws, user.location);
 			
-			user.addData();
-			
 			cout << "Password (4 digits) :: ";
-			cin >> pass_w;
+			cin >> user.pass_w;
 			
-			ofstream ap; // add password
-			
-			ap.open("pw.txt", ofstream::app);
-			
-			if(ap.fail())
-			{
-				cout << "Error occurs!" << endl;
-				return 1;
-			}
-			
-			ap << "\n" << pass_w;
-			
-			cout << "Data added successfully." << endl;
-			
-			ap.close();
+			user.addData();
 		}
 			
 		else if(choice == 2)
