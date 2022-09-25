@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
 	
 	void addData()
 	{
-		ofstream af; //adding adata to file
+		ofstream af; //adding data to file
 		af.open("udata.txt", ofstream::app);
 		
 		if(af.fail())
@@ -45,12 +46,96 @@ public:
 		}
 			
 		ap << "\n" << pass_w;
+		
+		ap.close();
 			
 		cout << "Data added successfully." << endl;
-			
-		ap.close();
 	}
 	
+	int findData(int read_line)
+	{
+		ifstream rf; //reading data from file
+			
+		rf.open("udata.txt");
+			
+		if(rf.fail())
+		{
+			cout << "Error occurs!" << endl;
+			return 1;
+		}
+			
+		string user_data;
+		int current_line = 1;
+			
+		while(getline(rf, user_data))
+		{
+			if(!rf.eof())
+			{
+				if(current_line == read_line)
+				{
+					cout << "Name  " << " || ";
+					cout << " ID " << " || ";
+					cout << " Amount " << " || ";
+					cout << " Age " << " || ";
+					cout << " Location " << endl;
+					cout << user_data << endl;
+					break;
+				}
+			}
+			current_line++;
+		}
+		
+		rf.close();
+		
+		return 0;
+	}
+	
+	void updateData(int readLine)
+	{
+		ifstream readfile;
+		
+		readfile.open("udata.txt");
+		
+		vector<string> temp_lines;
+		string temp_line;
+		
+		if(readfile.fail())
+		{
+			cout << "Error opening file!" << endl;
+			exit(1);
+		}
+		
+		while(getline(readfile, temp_line))
+		{
+			temp_lines.push_back(temp_line);
+		}
+		
+		readfile.close();
+		
+		ofstream writefile;
+		
+		writefile.open("udata.txt");
+		
+		if(writefile.fail())
+		{
+			cout << "Error opening file!" << endl;
+			exit(1);
+		}
+		
+		readLine--;
+		
+		for(int index = 0; index < temp_lines.size(); index++)
+		{
+			if(index != readLine)
+				writefile << temp_lines[index] << endl;
+			else
+				writefile << name << " : " << id << " : " << amount << " : " << age << " : " << location << endl;
+		}
+		
+		
+		writefile.close();
+		cout << "Data updated successfully" << endl;
+	}
 };
 
 int main()
@@ -64,19 +149,18 @@ int main()
 	cout << "Press 2 to find data" << endl;
 	cout << "Press 3 to update data" << endl;
 	cout << "Press 4 to exit" << endl;
+	cout << " >>> ";
 	
 	cin >> choice;
-	
-	//cout << "choice = " << choice << endl;
 	
 	while(choice != 4)
 	{
 		if(choice == 1)
 		{
+			cout << "************" << endl;
 			cout << "Enter your data" << endl;
 			
 			cout << "Name :: ";
-			//cin >> user.name;
 			getline(cin >> ws, user.name);
 			
 			cout << "ID :: ";
@@ -95,56 +179,58 @@ int main()
 			cin >> user.pass_w;
 			
 			user.addData();
+			
+			cout << "____________________" << endl;
 		}
 			
 		else if(choice == 2)
 		{
-			int read_line = password();
+			cout << "************" << endl;
 			
-			//cout << "Read line = " << read_line << endl;
+			int readline = password();
 			
-			ifstream rf; //reading file
+			user.findData(readline);
 			
-			rf.open("udata.txt");
-			
-			if(rf.fail())
-			{
-				cout << "Error occura!" << endl;
-				return 1;
-			}
-			
-			string user_data;
-			int current_line = 1;
-			
-			while(getline(rf, user_data))
-			{
-				if(!rf.eof())
-				{
-					if(current_line == read_line)
-					{
-						cout << user_data << endl;
-						break;
-					}
-				}
-				current_line++;
-			}
-			rf.close();
-			
+			cout << "____________________" << endl;
 		}
+
+		
+		if(choice == 3)
+		{
+			cout << "************" << endl;
 			
-			/*case 3:
-			break;
+			int read_line = password();
+			cout << "This is your old data" << endl;
+			user.findData(read_line);
+			cout << "<<<<<<>>>>>>" << endl;
 			
-			case 4:
-			break;*/
+			cout << "Enter new data" << endl;
 			
-			//default:
-			//break;
+			cout << "Name :: ";
+			getline(cin >> ws, user.name);
+			
+			cout << "ID :: ";
+			cin >> user.id;
+			
+			cout << "Amount :: ";
+			cin >> user.amount;
+			
+			cout << "Age :: ";
+			cin >> user.age;
+			
+			cout << "Location(town) :: ";
+			getline(cin >> ws, user.location);
+			
+			user.updateData(read_line);
+			
+			cout << "____________________" << endl;
+		}
 		
 		cout << "Press 1 to insert data" << endl;
 		cout << "Press 2 to find data" << endl;
 		cout << "Press 3 to update data" << endl;
 		cout << "Press 4 to exit" << endl;
+		cout << " >>> ";
 		
 		cin >> choice;
 	}
@@ -171,24 +257,11 @@ int password()
 		return 1;
 	}
 	
-	cout << "Enter password to find :: ";
+	cout << "Enter your password :: ";
 	cin >> temp_pw;
 	
 	while(getline(file, counter_pw))
-	{
-		
-		/*if(temp_pw == counter_pw)
-		{
-			cout << "Temp = " << temp_pw << endl;
-			cout << "Counter = " << counter_pw << endl;
-			cout << "Line :: " << line - 1 << endl;
-			break;
-		}
-		
-		line++;*/
-		
-		//cout << "Counter = " << counter_pw << endl;
-		
+	{	
 		if(counter_pw == temp_pw)
 		{
 			/*cout << "Right pw = " << counter_pw << endl;
@@ -204,12 +277,7 @@ int password()
 		line++;
 	}
 	
-	
-	/*cout << "Wrong password" << endl;
-	cout << "There are only " << line - 1 << " lines" << endl;*/
-	
 	file.close();
-	
 	
 	return 0;
 }
